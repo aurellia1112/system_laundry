@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('order_details', function (Blueprint $table) {
+            $table->id();
+            // Foreign key ke tabel orders
+            $table->foreignId('order_id')
+                ->constrained('orders')
+                ->onDelete('cascade');
+
+            // Foreign key ke tabel services
+            $table->foreignId('service_id')
+                ->constrained('services')
+                ->onDelete('cascade');
+
+            $table->integer('qty_or_weight');
+            $table->integer('subtotal');
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('order_details');
+    }
+};
